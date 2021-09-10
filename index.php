@@ -17,7 +17,8 @@ $payload = [
         'ROLE_USER'
         // SUB pour subject, donnée réservé pour savoir à qui est attribué le token, c'est un ID le plus souvent
         // iat issue at, c'est le time stamp
-    ]
+    ],
+    'email' => 'contact@demo.fr'
 ];
 
 $jwt = new JWT();
