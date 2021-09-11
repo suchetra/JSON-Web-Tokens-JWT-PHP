@@ -88,4 +88,17 @@ class JWT
         return $payload;
     }
 
+    /**
+     * Vérification de l'expiration
+     * @param string $token Token à vérifier
+     * @return bool Vérifié ou non
+     */
+    public function isExpired(string $token): bool
+    {
+        $payload = $this->getPayload($token);
+
+        $now = new DateTime();
+
+        return $payload['exp'] < $now->getTimestamp();
+    }
 }
