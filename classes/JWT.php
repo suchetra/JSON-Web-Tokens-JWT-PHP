@@ -97,8 +97,8 @@ class JWT
     {
         $payload = $this->getPayload($token);
 
-        $now = new DateTime();
+        $nowWhenChecked = new DateTime();
 
-        return $payload['exp'] < $now->getTimestamp();
+        return $payload['exp'] < $nowWhenChecked->getTimestamp();
     }
 }
