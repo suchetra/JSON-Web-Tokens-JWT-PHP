@@ -1,8 +1,16 @@
 <?php
 class JWT
 {
-    public function generate(array $header, array $payload, string $secret): string
+    public function generate(array $header, array $payload, string $secret, int $validity = 86400): string
     {
+
+        if($validity > 0){
+            $now = new DateTime();
+            $expiration = $now->getTimestamp() + $validity;
+            $payload['iat'] = $now->getTimestamp();
+            $payload['exp'] = $expiration;
+        }
+
         // on transforme le header et payload en chaine de caractères comme à gauche sur le site, on dit que :
         // on encode le header/payload en base64
         // on utilise json_encode() car $header est un tableau
@@ -43,4 +51,41 @@ class JWT
 
         return $jwt;
     }
+
+    public function check(string $token, string $secret): bool
+    {
+        // on récupère le header
+        $header = $this->getHeader($token);
+        $payload = $this->getPayload($token);
+
+        // on génère un token de vérification
+        // 0 car on ne veut pas ajouter des dates à la fonction generate qui en a déjà... sinon le token sera différent
+        $verifToken = $this->generate($header, $payload, $secret, 0);
+
+        return $token === $verifToken;
+    }
+
+    public function getHeader(string $token)
+    {
+        // démontage token
+        $array = explode('.', $token);
+
+        // on décode le header
+        $header = json_decode(base64_decode($array[0]), true);
+
+        return $header;
+
+    }
+
+    public function getPayload(string $token)
+    {
+        // démontage token
+        $array = explode('.', $token);
+
+        // on décode le header
+        $payload = json_decode(base64_decode($array[1]), true);
+
+        return $payload;
+    }
+
 }
