@@ -21,4 +21,5 @@ $jwt = new JWT();
 // var_dump($jwt->getPayload(TOKEN));
 
 // var_dump($jwt->check(TOKEN, SECRET));
-var_dump($jwt->isExpired(TOKEN));
+// var_dump($jwt->isExpired(TOKEN));
+var_dump($jwt->isValid(TOKEN));

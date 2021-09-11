@@ -101,4 +101,13 @@ class JWT
 
         return $payload['exp'] < $nowWhenChecked->getTimestamp();
     }
+
+    // on vérifie que le token est valide en matière de contenu au niveau des caractères, pas de signature
+    public function isValid(string $token): bool
+    {
+        // vérifie que le token correspond à une expression régulière
+        return preg_match(
+            '/^[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+\.[a-zA-Z0-9\-\_\=]+$/', $token
+        ) === 1;
+    }
 }
