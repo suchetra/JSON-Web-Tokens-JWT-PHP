@@ -102,7 +102,7 @@ class JWT
         return $payload['exp'] < $nowWhenChecked->getTimestamp();
     }
 
-    // on vérifie que le token est valide en matière de contenu au niveau des caractères, pas de signature
+    // on vérifie que le token est valide en matière de contenu au niveau des caractères (on vérifie que la chaîne de caractères est un token JWT), pas de signature
     public function isValid(string $token): bool
     {
         // vérifie que le token correspond à une expression régulière
